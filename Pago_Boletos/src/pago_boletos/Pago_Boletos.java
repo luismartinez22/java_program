@@ -5,6 +5,8 @@
  */
 package pago_boletos;
 
+import forms.logueo;
+
 /**
  *
  * @author luis
@@ -16,6 +18,9 @@ public class Pago_Boletos {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        logueo frm = new logueo();
+        frm.setVisible(true);
+        frm.setLocationRelativeTo(null);
     }
     
 }

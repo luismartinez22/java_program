@@ -11,11 +11,13 @@ import pago_boletos.boleto;
  *
  */
 import pago_boletos.gest_boleto;
+import pago_boletos.gest_usuario;
 public class Facade {
 
     private static Facade objFacade = null;
 
     gest_boleto obj_boleto;
+    gest_usuario gestora_usuario;
 
     public static Facade getInstance() {
         if (objFacade == null) {
@@ -46,6 +48,11 @@ public class Facade {
 
     public void modificar_boleto(int ocr) {
         obj_boleto.modificar_boletos(ocr);
+    }
+    
+    //Gestora de Usuario
+    public Boolean existe_usuario(String usuario, String clave) {
+    	return gestora_usuario.existe_usuario(usuario, clave);
     }
 
 }

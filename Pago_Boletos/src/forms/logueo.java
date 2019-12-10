@@ -5,16 +5,22 @@
  */
 package forms;
 
+import Dominio.Facade;
+
 /**
  *
  * @author luis
  */
 public class logueo extends javax.swing.JFrame {
 
+    Facade objF;
+    /**
+     * Creates new form Login
+     */
     public logueo() {
         initComponents();
+        objF = Facade.getInstance();
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,7 +40,7 @@ public class logueo extends javax.swing.JFrame {
 
         jLabel2.setText("Usuario:");
 
-        jLabel3.setText("ContraseÃ±a:");
+        jLabel3.setText("Contraseña:");
 
         btn_ingresar.setText("Ingresar");
 

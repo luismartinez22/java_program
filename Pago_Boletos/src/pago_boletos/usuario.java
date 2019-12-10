@@ -5,21 +5,33 @@
  */
 package pago_boletos;
 
+import java.util.ArrayList;
+
+import Dominio.IPersistente;
+import Persistencia.Dominio.Broker;
+import Persistencia.Dominio.FachadaBaseDeDatos;
+
 /**
  *
  * @author luis
  */
-public class usuario {
+public class usuario implements IPersistente{
     private String nombre;
     private String appelido;
     private String nombreDeUsuario;
     private String contrasena;
-
+    Broker objBroker;
+    
+    public usuario() {
+    objBroker = FachadaBaseDeDatos.getInstance().obtenerBroker(this);
+}
+    
     public usuario(String nombre, String appelido, String nombreDeUsuario, String contrasena) {
         this.nombre = nombre;
         this.appelido = appelido;
         this.nombreDeUsuario = nombreDeUsuario;
         this.contrasena = contrasena;
+        objBroker = FachadaBaseDeDatos.getInstance().obtenerBroker(this);
     }
     
     
@@ -55,6 +67,53 @@ public class usuario {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
+
+
+
+	@Override
+	public boolean guardar(boolean local) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	@Override
+	public boolean modificar(boolean local) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	@Override
+	public boolean eliminar(boolean local) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	@Override
+	public ArrayList obtenerTodos() {
+		return objBroker.obtenerTodos();
+	}
+
+
+
+	@Override
+	public String actualizacion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+	@Override
+	public void setactualizado() {
+		// TODO Auto-generated method stub
+		
+	}
     
     
     
