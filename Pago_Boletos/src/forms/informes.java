@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import pago_boletos.boleto;
 
@@ -176,15 +177,19 @@ public class informes extends javax.swing.JFrame {
         protected void Listar(String fecha) throws IOException {
         //lo modifica
         ArrayList<boleto> bol = objF.obtener_boletos_por_fecha(fecha);
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        for(int i = 0; i< bol.size(); i++){
-            int ocr = bol.get(i).getOcr();
-            String fecha_pago = bol.get(i).getFecha_pago();
-            String fecha_sorteo = bol.get(i).getFecha_sorteo();
-            String tipo_juego = bol.get(i).getTipo_juego();
-            boolean validado = bol.get(i).getValidado();
-            Object[] data = {tipo_juego,fecha_sorteo,fecha_pago,ocr,validado};
-            model.addRow(data);
+        if(bol.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No se encontraron registros para la fecha seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            for(int i = 0; i< bol.size(); i++){
+                int ocr = bol.get(i).getOcr();
+                String fecha_pago = bol.get(i).getFecha_pago();
+                String fecha_sorteo = bol.get(i).getFecha_sorteo();
+                String tipo_juego = bol.get(i).getTipo_juego();
+                boolean validado = bol.get(i).getValidado();
+                Object[] data = {tipo_juego,fecha_sorteo,fecha_pago,ocr,validado};
+                model.addRow(data);
+            } 
         }
 
     }
