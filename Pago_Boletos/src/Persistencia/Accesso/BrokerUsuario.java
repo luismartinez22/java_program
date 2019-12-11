@@ -4,6 +4,9 @@ import java.sql.ResultSet;
 
 import Dominio.IPersistente;
 import Persistencia.Dominio.Broker;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import pago_boletos.boleto;
 import pago_boletos.usuario;
 
 public class BrokerUsuario extends Broker {
@@ -45,13 +48,23 @@ public class BrokerUsuario extends Broker {
 	@Override
 	public void obtenerDesdeResultSet(ResultSet rs, Object IPersistentej) {
 		// TODO Auto-generated method stub
+                try {
+            usuario Usr = (usuario) IPersistentej;
+            Usr.setNombre(rs.getString("nombre"));
+            Usr.setAppelido(rs.getString("apellido"));
+            Usr.setNombreDeUsuario(rs.getString("usuario"));
+            Usr.setContrasena(rs.getString("clave"));
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al obtener los usuarios.\nSi el problema persiste comuniquese a DevGL\nCel: 099782809", "Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(0);
+        }
 		
 	}
 
 	@Override
 	public IPersistente getNuevo() {
 		// TODO Auto-generated method stub
-		return null;
+		return new usuario();
 	}
 
 }

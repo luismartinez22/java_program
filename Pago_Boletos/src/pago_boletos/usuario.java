@@ -5,11 +5,11 @@
  */
 package pago_boletos;
 
-import java.util.ArrayList;
-
-import Dominio.IPersistente;
-import Persistencia.Dominio.Broker;
 import Persistencia.Dominio.FachadaBaseDeDatos;
+import Dominio.IPersistente;
+import Persistencia.Accesso.BrokerUsuario;
+import Persistencia.Dominio.Broker;
+import java.util.ArrayList;
 
 /**
  *
@@ -21,6 +21,7 @@ public class usuario implements IPersistente{
     private String nombreDeUsuario;
     private String contrasena;
     Broker objBroker;
+    BrokerUsuario objBrokerUsuario = new BrokerUsuario(this);
     
     public usuario() {
     objBroker = FachadaBaseDeDatos.getInstance().obtenerBroker(this);
@@ -96,7 +97,7 @@ public class usuario implements IPersistente{
 
 	@Override
 	public ArrayList obtenerTodos() {
-		return objBroker.obtenerTodos();
+		return objBrokerUsuario.obtenerTodos();
 	}
 
 

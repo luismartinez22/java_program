@@ -14,7 +14,7 @@ import java.util.Observable;
  */
 public class gest_usuario extends Observable {
     private ArrayList<usuario> col_usuario = new ArrayList<usuario>();
-    private static gest_usuario objGestC = null;
+    private static gest_usuario objGestUsr = null;
 
     public gest_usuario() {
         usuario objc = new usuario();
@@ -22,10 +22,10 @@ public class gest_usuario extends Observable {
     }
 
     public static gest_usuario getInstance() {
-        if (objGestC == null) {
-            objGestC = new gest_usuario();
+        if (objGestUsr == null) {
+            objGestUsr = new gest_usuario();
         }
-        return objGestC;
+        return objGestUsr;
     }
 
 
@@ -41,7 +41,6 @@ public class gest_usuario extends Observable {
     }
 
     public Boolean existe_usuario(String usuario, String clave) {
-        ArrayList<usuario> x = new ArrayList<usuario>();
         for (usuario objC : col_usuario) {
             if (objC.getNombreDeUsuario().equals(usuario) && objC.getContrasena().equals(clave)) {
                 return true;

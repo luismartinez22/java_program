@@ -6,6 +6,7 @@
 package forms;
 
 import Dominio.Facade;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -38,11 +39,38 @@ public class logueo extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        text_nombre_de_usuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_nombre_de_usuarioActionPerformed(evt);
+            }
+        });
+        text_nombre_de_usuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                text_nombre_de_usuarioKeyPressed(evt);
+            }
+        });
+
+        text_contrasena.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                text_contrasenaActionPerformed(evt);
+            }
+        });
+        text_contrasena.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                text_contrasenaKeyPressed(evt);
+            }
+        });
+
         jLabel2.setText("Usuario:");
 
-        jLabel3.setText("Contrase�a:");
+        jLabel3.setText("Contraseña:");
 
         btn_ingresar.setText("Ingresar");
+        btn_ingresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ingresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -83,6 +111,54 @@ public class logueo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btn_ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ingresarActionPerformed
+        // TODO add your handling code here:
+        loguin();
+    }//GEN-LAST:event_btn_ingresarActionPerformed
+
+    private void text_nombre_de_usuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_nombre_de_usuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_nombre_de_usuarioActionPerformed
+
+    private void text_nombre_de_usuarioKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_text_nombre_de_usuarioKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+            loguin();
+        }
+    }//GEN-LAST:event_text_nombre_de_usuarioKeyPressed
+
+    private void text_contrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_contrasenaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_text_contrasenaActionPerformed
+
+    private void text_contrasenaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_text_contrasenaKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
+            loguin();
+        }
+    }//GEN-LAST:event_text_contrasenaKeyPressed
+
+    private void loguin(){
+        String usr = text_nombre_de_usuario.getText();
+        String clave = text_contrasena.getText();
+        if(!usr.equals("") && (!clave.equals("")))
+        {
+            if(objF.existe_usuario(usr, clave)){
+                //TODO login a menu
+                menu frm = new menu();
+                frm.setVisible(true);
+                frm.setLocationRelativeTo(null);
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(null, "Datos incorrectos, intente nuevamente.");
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Debe completar los campos usuario y contraseña.");
+        }
+    }
     /**
      * @param args the command line arguments
      */

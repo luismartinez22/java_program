@@ -4,12 +4,6 @@ package Dominio;
 import java.util.ArrayList;
 import java.util.List;
 import pago_boletos.boleto;
-
-/**
- *
- * @author DevGL
- *
- */
 import pago_boletos.gest_boleto;
 import pago_boletos.gest_usuario;
 public class Facade {
@@ -17,7 +11,7 @@ public class Facade {
     private static Facade objFacade = null;
 
     gest_boleto obj_boleto;
-    gest_usuario gestora_usuario;
+    gest_usuario obj_usuario;
 
     public static Facade getInstance() {
         if (objFacade == null) {
@@ -28,6 +22,7 @@ public class Facade {
 
     private Facade() {
         obj_boleto = gest_boleto.getInstance();
+        obj_usuario = gest_usuario.getInstance();
     }
 
     public ArrayList<IPersistente> devolverTodasSincronizaciones() {
@@ -52,7 +47,7 @@ public class Facade {
     
     //Gestora de Usuario
     public Boolean existe_usuario(String usuario, String clave) {
-    	return gestora_usuario.existe_usuario(usuario, clave);
+    	return obj_usuario.existe_usuario(usuario, clave);
     }
 
 }

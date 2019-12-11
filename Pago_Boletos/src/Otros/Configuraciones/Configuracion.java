@@ -18,8 +18,8 @@ public class Configuracion {
     private int configfletescortos; //Define el limite entre fletes cortos y largos
     
     private String tipoConexionLocal = "Manual"; //ODBC o Manual
-    private String userLocal = "admin";
-    private String passwordLocal = "admin22!";
+    private String userLocal = "root";
+    private String passwordLocal = "Root100%";
     private String namebdLocal = "banca";
     
     private boolean tieneconWeb; //¿ Tiene conexion web ?

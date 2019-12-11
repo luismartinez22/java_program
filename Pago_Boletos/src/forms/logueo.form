@@ -68,8 +68,16 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JTextField" name="text_nombre_de_usuario">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="text_nombre_de_usuarioActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="text_nombre_de_usuarioKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="text_contrasena">
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="text_contrasenaActionPerformed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="text_contrasenaKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
@@ -85,6 +93,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Ingresar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_ingresarActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

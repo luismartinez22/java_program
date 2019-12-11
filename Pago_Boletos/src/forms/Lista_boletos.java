@@ -35,7 +35,7 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
     /**
      * Creates new form Login
      */
-    private Lista_boletos() {
+    Lista_boletos() {
         initComponents();
         objF = Facade.getInstance();
         gest_boleto.getInstance().addObserver(this);
@@ -129,7 +129,7 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            Workbook workbook = WorkbookFactory.create(new File("/Users/luis/Downloads/Aciertos.xls"));
+            Workbook workbook = WorkbookFactory.create(new File("C:\\Users\\Abstracta\\Downloads\\Banca\\Aciertos.xls"));
 
             // Getting the Sheet at index zero
             Sheet sheet = workbook.getSheetAt(0);
