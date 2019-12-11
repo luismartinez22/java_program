@@ -15,6 +15,7 @@ public class menu extends javax.swing.JFrame {
     /** Creates new form menu */
     public menu() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /** This method is called from within the constructor to

@@ -21,6 +21,7 @@ public class logueo extends javax.swing.JFrame {
     public logueo() {
         initComponents();
         objF = Facade.getInstance();
+        setLocationRelativeTo(null);
     }
     /**
      * This method is called from within the constructor to initialize the form.

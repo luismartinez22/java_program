@@ -49,6 +49,7 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
         initComponents();
         objF = Facade.getInstance();
         gest_boleto.getInstance().addObserver(this);
+        setLocationRelativeTo(null);
     }
     
 
