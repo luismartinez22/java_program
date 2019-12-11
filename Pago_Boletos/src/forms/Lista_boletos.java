@@ -195,7 +195,8 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
         char vChar = evt.getKeyChar();
         if (!(Character.isDigit(vChar)
                 || (vChar == KeyEvent.VK_BACK_SPACE)
-                || (vChar == KeyEvent.VK_DELETE))) {
+                || (vChar == KeyEvent.VK_DELETE)
+                || (vChar == KeyEvent.VK_ENTER))) {
                 evt.consume();
                 JOptionPane.showMessageDialog(null, "Por favor, ingrese solo numeros.", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -266,15 +267,20 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
 
     private void txt_codeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_codeActionPerformed
         // TODO add your handling code here:
-        int ocr = Integer.parseInt(txt_code.getText());
-        String x = txt_code.getText();
-        if(9 == x.length()){
-            try {
-                this.Modificar(ocr);
-            } catch (IOException ex) {
-                Logger.getLogger(Lista_boletos.class.getName()).log(Level.SEVERE, null, ex);
+        int ocr;
+        String value = txt_code.getText();
+        if(!"".equals(value)){
+            ocr = Integer.parseInt(value);
+            String x = txt_code.getText();
+            if(9 == x.length()){
+                try {
+                    this.Modificar(ocr);
+                } catch (IOException ex) {
+                    Logger.getLogger(Lista_boletos.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
+
     }//GEN-LAST:event_txt_codeActionPerformed
 
     private void txt_codeComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_txt_codeComponentAdded
@@ -300,9 +306,6 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
         //lo modifica
             if(this.validateOcr(ocr)){
                 objF.modificar_boleto(ocr);
-            }else{
-                JOptionPane.showMessageDialog(null, "OCR no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
-                txt_code.setText("");
             }
     }
      
@@ -313,7 +316,9 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
             Object columnValue = model.getValueAt(e,3);
             if(columnValue != null && columnValue.equals(String.valueOf(ocr))){
                 if(model.getValueAt(e, 4) != null){
-                    JOptionPane.showMessageDialog(null, "OCR numero " + ocr + " ya fue validado!", "Error", JOptionPane.ERROR_MESSAGE);  
+                    JOptionPane.showMessageDialog(null, "OCR numero " + ocr + " ya fue validado!", "Error", JOptionPane.ERROR_MESSAGE); 
+                    txt_code.setText("");
+                    return false;
                 }else{
                     model.setValueAt(true, e, 4);
                     txt_code.setText("");
@@ -321,8 +326,9 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
                     return true;
                 }
             }
-
         }
+        JOptionPane.showMessageDialog(null, "OCR no encontrado.", "Error", JOptionPane.ERROR_MESSAGE);
+        txt_code.setText("");
         return false;
      }
     /**
