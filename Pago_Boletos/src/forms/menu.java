@@ -74,6 +74,7 @@ public class menu extends javax.swing.JFrame {
         Lista_boletos frm = new Lista_boletos();
         frm.setVisible(true);
         frm.setLocationRelativeTo(null);
+        this.setVisible(false);
     }//GEN-LAST:event_btnValidarActionPerformed
 
     private void btnListadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListadoActionPerformed
@@ -81,6 +82,7 @@ public class menu extends javax.swing.JFrame {
         informes frm = new informes();
         frm.setVisible(true);
         frm.setLocationRelativeTo(null);
+        this.setVisible(false);
     }//GEN-LAST:event_btnListadoActionPerformed
 
     /**

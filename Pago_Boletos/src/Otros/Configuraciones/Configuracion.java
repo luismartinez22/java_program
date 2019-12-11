@@ -19,7 +19,7 @@ public class Configuracion {
     
     private String tipoConexionLocal = "Manual"; //ODBC o Manual
     private String userLocal = "root";
-    private String passwordLocal = "Root100%";
+    private String passwordLocal = "admin22!";
     private String namebdLocal = "banca";
     
     private boolean tieneconWeb; //¿ Tiene conexion web ?

@@ -32,10 +32,10 @@ public class logueo extends javax.swing.JFrame {
     private void initComponents() {
 
         text_nombre_de_usuario = new javax.swing.JTextField();
-        text_contrasena = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btn_ingresar = new javax.swing.JButton();
+        textPsw = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,17 +50,6 @@ public class logueo extends javax.swing.JFrame {
             }
         });
 
-        text_contrasena.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                text_contrasenaActionPerformed(evt);
-            }
-        });
-        text_contrasena.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                text_contrasenaKeyPressed(evt);
-            }
-        });
-
         jLabel2.setText("Usuario:");
 
         jLabel3.setText("Contraseña:");
@@ -69,6 +58,12 @@ public class logueo extends javax.swing.JFrame {
         btn_ingresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_ingresarActionPerformed(evt);
+            }
+        });
+
+        textPsw.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textPswKeyPressed(evt);
             }
         });
 
@@ -84,9 +79,9 @@ public class logueo extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(text_contrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(text_nombre_de_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(text_nombre_de_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                            .addComponent(textPsw)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(137, 137, 137)
                         .addComponent(btn_ingresar, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -101,9 +96,9 @@ public class logueo extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(text_contrasena, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(textPsw, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addComponent(btn_ingresar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -127,20 +122,16 @@ public class logueo extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_text_nombre_de_usuarioKeyPressed
 
-    private void text_contrasenaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_text_contrasenaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_text_contrasenaActionPerformed
-
-    private void text_contrasenaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_text_contrasenaKeyPressed
+    private void textPswKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textPswKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER){
             loguin();
         }
-    }//GEN-LAST:event_text_contrasenaKeyPressed
+    }//GEN-LAST:event_textPswKeyPressed
 
     private void loguin(){
         String usr = text_nombre_de_usuario.getText();
-        String clave = text_contrasena.getText();
+        String clave = textPsw.getText();
         if(!usr.equals("") && (!clave.equals("")))
         {
             if(objF.existe_usuario(usr, clave)){
@@ -148,6 +139,7 @@ public class logueo extends javax.swing.JFrame {
                 menu frm = new menu();
                 frm.setVisible(true);
                 frm.setLocationRelativeTo(null);
+                this.setVisible(false);
             }
             else
             {
@@ -199,7 +191,7 @@ public class logueo extends javax.swing.JFrame {
     private javax.swing.JButton btn_ingresar;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField text_contrasena;
+    private javax.swing.JPasswordField textPsw;
     private javax.swing.JTextField text_nombre_de_usuario;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,6 +4,7 @@ import Persistencia.Dominio.Broker;
 import pago_boletos.boleto;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Calendar;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,7 +21,10 @@ public class BrokerBoletoAccess extends Broker {
     @Override
     public String getInsertCommand() {
         boleto Usr = (boleto) this.getObjP();
-        return "INSERT INTO boletos(ocr, fecha_sorteo, fecha_pago, tipo_juego, validado)" + "VALUES('" + Usr.getOcr() + "','" + Usr.getFecha_sorteo() + "','" + Usr.getFecha_pago() + "','" + Usr.getTipo_juego()+ "'," + Usr.getValidado()+")";
+        Calendar now = Calendar.getInstance();
+        int year = now.get(Calendar.YEAR);
+        String yearInString = String.valueOf(year);
+        return "INSERT INTO boletos(ocr, fecha_sorteo, fecha_pago, tipo_juego, validado)" + "VALUES('" + Usr.getOcr() + "','" + Usr.getFecha_sorteo() + "','" + Usr.getFecha_pago()+"/"+ yearInString + "','" + Usr.getTipo_juego()+ "'," + Usr.getValidado()+")";
 
     }
 
