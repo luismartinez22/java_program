@@ -9,6 +9,9 @@ import Dominio.Facade;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -22,6 +25,8 @@ import pago_boletos.boleto;
  */
 public class informes extends javax.swing.JFrame {
     Facade objF;
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
+    LocalDateTime now = LocalDateTime.now();  
     /**
      * Creates new form informes
      */
@@ -29,6 +34,7 @@ public class informes extends javax.swing.JFrame {
         initComponents();
         objF = Facade.getInstance();
         setLocationRelativeTo(null);
+        date_picker.setDate(new Date());
     }
 
     /**
@@ -143,12 +149,15 @@ public class informes extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        String fecha = convertirDateString(date_picker.getDate());
-        try {
-            this.Listar(fecha);
-        } catch (IOException ex) {
-            Logger.getLogger(informes.class.getName()).log(Level.SEVERE, null, ex);
+          String fecha = convertirDateString(date_picker.getDate());
+        if(!fecha.equals("")){
+            try {
+                this.Listar(fecha);
+            } catch (IOException ex) {
+                Logger.getLogger(informes.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
