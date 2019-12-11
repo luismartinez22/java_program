@@ -99,6 +99,10 @@ public class boleto implements IPersistente  {
     public ArrayList obtenerTodos() {
         return objBroker.obtenerTodos();
     }
+    
+    public ArrayList obtener_boletos_por_fecha(String fecha){
+        return objBroker.obtener_boletos_por_fecha(fecha);
+    }
 
     @Override
     public String actualizacion() {

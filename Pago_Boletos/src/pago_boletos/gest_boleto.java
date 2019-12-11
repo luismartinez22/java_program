@@ -41,6 +41,12 @@ public class gest_boleto extends Observable {
     public ArrayList<boleto> devolver_boletos() {
         return col_boletos;
     }
+    
+    public ArrayList<boleto> obtener_boletos_por_fecha(String fecha) {
+        ArrayList<boleto> x = new ArrayList<boleto>();
+        boleto objC = new boleto();
+        return objC.obtener_boletos_por_fecha(fecha);
+    }
 
     public ArrayList<boleto> devolver_boletos_sincronizar() {
         ArrayList<boleto> x = new ArrayList<boleto>();

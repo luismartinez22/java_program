@@ -99,6 +99,21 @@ public abstract class Broker {
         return ret;
     }
     
+        public ArrayList obtener_boletos_por_fecha(String fecha) {
+        ArrayList ret = new ArrayList();
+        try {
+            ResultSet rs = this.obtenerResultSet(obtener_por_fecha(fecha));
+            while (rs.next()) {
+                IPersistente aux = getNuevo();
+                obtenerDesdeResultSet(rs, aux);
+                ret.add(aux);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error al obtener boletos.\n" + e.getMessage());
+        }
+        return ret;
+    }
+    
 
     public abstract String getInsertCommand();
 
@@ -109,6 +124,8 @@ public abstract class Broker {
     public abstract String getSelectCommand();
     
     public abstract String getSelectUltimosCommand(int id);
+    
+    public abstract String obtener_por_fecha(String fecha);
 
     public abstract void obtenerDesdeResultSet(ResultSet rs, Object IPersistentej);
 

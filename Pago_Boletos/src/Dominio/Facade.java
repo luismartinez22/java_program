@@ -40,6 +40,10 @@ public class Facade {
     public ArrayList<boleto> devolver_boleto() {
         return obj_boleto.devolver_boletos();
     }
+    
+    public ArrayList<boleto> obtener_boletos_por_fecha(String fecha) {
+        return obj_boleto.obtener_boletos_por_fecha(fecha);
+    }
 
     public void modificar_boleto(int ocr) {
         obj_boleto.modificar_boletos(ocr);

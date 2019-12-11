@@ -44,6 +44,11 @@ public class BrokerBoletoAccess extends Broker {
     public String getSelectUltimosCommand(int id) {
         return "";
     }
+    
+    @Override
+    public String obtener_por_fecha(String fecha){
+        return "SELECT * FROM boletos WHERE fecha_pago=" + "'" + fecha + "'";
+    }
 
     @Override
     public void obtenerDesdeResultSet(ResultSet rs, Object IPersistentej) {
@@ -55,7 +60,7 @@ public class BrokerBoletoAccess extends Broker {
             Usr.setTipo_juego(rs.getString("tipo_juego"));
             Usr.setValidado(rs.getBoolean("validado"));
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error al obtener los usuarios.\nSi el problema persiste comuniquese a DevGL\nCel: 099782809", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Error al obtener los boletos.\nSi el problema persiste comuniquese a DevGL\nCel: 099782809", "Error", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
     }

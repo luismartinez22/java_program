@@ -67,4 +67,9 @@ public class BrokerUsuario extends Broker {
 		return new usuario();
 	}
 
+    @Override
+    public String obtener_por_fecha(String fecha) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
