@@ -60,7 +60,7 @@ public class informes extends javax.swing.JFrame {
             Date fecha = date_picker.getDate();
             Date fechaActual = new Date();
             DateFormat formatoHora = new SimpleDateFormat("HH-mm-ss");
-            DateFormat formatoFecha = new SimpleDateFormat("dd/MM");
+            DateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
             String pdf = "Informe-" + formatoHora.format(fechaActual) + ".pdf";
             String reportName = "Informe.jasper";
             Map<String, Object> params = new HashMap<String, Object>();
