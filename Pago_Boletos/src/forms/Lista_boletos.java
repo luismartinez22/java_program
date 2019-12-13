@@ -276,15 +276,12 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
         int ocr;
         String value = txt_code.getText();
         if(!"".equals(value)){
-            ocr = Integer.parseInt(value);
-            String x = txt_code.getText();
-            if(9 == x.length()){
+            ocr = Integer.parseInt(value.substring(0, 9));
                 try {
                     this.Modificar(ocr);
                 } catch (IOException ex) {
                     Logger.getLogger(Lista_boletos.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
         }
 
     }//GEN-LAST:event_txt_codeActionPerformed
