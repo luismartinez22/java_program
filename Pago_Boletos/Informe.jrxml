@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Informe" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3d192091-3b71-4d76-8da1-69fa51a4b747">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fecha" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select * from boletos where fecha_sorteo=$P{fecha}]]>
+	</queryString>
+	<field name="ocr" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_sorteo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fecha_pago" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipo_juego" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="validado" class="java.lang.Boolean">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="179" y="22" width="188" height="35" uuid="bba899aa-e3bc-42ce-a22a-fecefd0a3052"/>
+				<textElement>
+					<font size="26"/>
+				</textElement>
+				<text><![CDATA[Informe boletos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="27" y="41" width="100" height="20" uuid="b0291fca-28e5-4dfa-a2f5-fbd93fe94997"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[OCR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="127" y="41" width="100" height="20" uuid="dbf7402e-5783-4ae4-9cb4-95193b4a063f"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA SORTEO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="227" y="41" width="100" height="20" uuid="534f5cfe-959c-4375-b039-97d486804dde"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[FECHA PAGO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="427" y="41" width="100" height="20" uuid="350ee3bc-120f-4d17-b12c-8e3f26c1cf27"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALIDADO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="327" y="41" width="100" height="20" uuid="76a67285-3623-4d67-846f-b76c31d0e7ed"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO JUEGO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="27" y="0" width="100" height="20" uuid="82106881-28fe-4787-98fd-34b2540ff8bb"/>
+				<textFieldExpression><![CDATA[$F{ocr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="127" y="0" width="100" height="20" uuid="e9852020-c3eb-4a3e-a954-b71013a2af3b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{fecha_sorteo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="0" width="100" height="20" uuid="49bc05f1-d078-47fa-9e8b-36a1fde2de14"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{fecha_pago}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="327" y="0" width="100" height="20" uuid="251847a6-7582-40ec-9e10-41ef2aed388b"/>
+				<textFieldExpression><![CDATA[$F{tipo_juego}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="427" y="0" width="100" height="20" uuid="fa719fd3-ee1a-4fd9-a120-a185c2e03847"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{validado}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="27" y="22" width="500" height="1" forecolor="#CCCCCC" uuid="0afbda7a-1852-41ed-875d-3cdb77340a47"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

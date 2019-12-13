@@ -6,18 +6,33 @@
 package forms;
 
 import Dominio.Facade;
+import Persistencia.Dominio.BaseDeDatos;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRXmlDataSource;
 import pago_boletos.boleto;
 
 /**
@@ -25,9 +40,11 @@ import pago_boletos.boleto;
  * @author Abstracta
  */
 public class informes extends javax.swing.JFrame {
+
     Facade objF;
-    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");  
-    LocalDateTime now = LocalDateTime.now();  
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    LocalDateTime now = LocalDateTime.now();
+
     /**
      * Creates new form informes
      */
@@ -36,6 +53,27 @@ public class informes extends javax.swing.JFrame {
         objF = Facade.getInstance();
         setLocationRelativeTo(null);
         date_picker.setDate(new Date());
+    }
+
+    public void imprimirPdf() throws JRException {
+        try {
+            Date fecha = date_picker.getDate();
+            Date fechaActual = new Date();
+            DateFormat formatoHora = new SimpleDateFormat("HH-mm-ss");
+            DateFormat formatoFecha = new SimpleDateFormat("dd/MM");
+            String pdf = "Informe-" + formatoHora.format(fechaActual) + ".pdf";
+            String reportName = "Informe.jasper";
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("fecha", formatoFecha.format(fecha));
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportName, params, BaseDeDatos.getConexionLocal());
+            OutputStream output = new FileOutputStream(new File(pdf));
+            JasperExportManager.exportReportToPdfStream(jasperPrint, output);
+            output.close();
+            File myFile = new File(pdf);
+            Desktop.getDesktop().open(myFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -53,6 +91,7 @@ public class informes extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         date_picker = new com.toedter.calendar.JDateChooser();
         btnBuscar = new javax.swing.JButton();
+        btnImprimirPDF = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 23, 1000, 700));
@@ -86,7 +125,6 @@ public class informes extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jButton1.setText("Volver");
-        jButton1.setSize(new java.awt.Dimension(83, 29));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -102,6 +140,13 @@ public class informes extends javax.swing.JFrame {
             }
         });
 
+        btnImprimirPDF.setText("Imprimir PDF");
+        btnImprimirPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirPDFActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,15 +159,17 @@ public class informes extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGap(17, 17, 17)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(date_picker, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(40, 40, 40)
-                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(45, 45, 45)
+                                .addComponent(btnImprimirPDF)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -137,7 +184,9 @@ public class informes extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(date_picker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btnBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                                .addComponent(btnImprimirPDF)))
                         .addGap(18, 18, 18)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 575, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -150,8 +199,8 @@ public class informes extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-          String fecha = convertirDateString(date_picker.getDate());
-        if(!fecha.equals("")){
+        String fecha = convertirDateString(date_picker.getDate());
+        if (!fecha.equals("")) {
             try {
                 this.Listar(fecha);
             } catch (IOException ex) {
@@ -165,34 +214,46 @@ public class informes extends javax.swing.JFrame {
         // TODO add your handling code here:
         menu frm = new menu();
         frm.setVisible(true);
-       this.setVisible(false);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnImprimirPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirPDFActionPerformed
+        try {
+            // TODO add your handling code here:
+            System.out.println("dir = " + System.getProperty("user.dir"));
+            imprimirPdf();
+        } catch (JRException ex) {
+            Logger.getLogger(informes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_btnImprimirPDFActionPerformed
 
     public static String convertirDateString(Date d) {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String fecha = dateFormat.format(d);
         return fecha;
     }
-    
-        protected void Listar(String fecha) throws IOException {
+
+    protected void Listar(String fecha) throws IOException {
         //lo modifica
         ArrayList<boleto> bol = objF.obtener_boletos_por_fecha(fecha);
-        if(bol.isEmpty()){
+        if (bol.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No se encontraron registros para la fecha seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
+        } else {
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            for(int i = 0; i< bol.size(); i++){
+            for (int i = 0; i < bol.size(); i++) {
                 int ocr = bol.get(i).getOcr();
                 String fecha_pago = bol.get(i).getFecha_pago();
                 String fecha_sorteo = bol.get(i).getFecha_sorteo();
                 String tipo_juego = bol.get(i).getTipo_juego();
                 boolean validado = bol.get(i).getValidado();
-                Object[] data = {tipo_juego,fecha_sorteo,fecha_pago,ocr,validado};
+                Object[] data = {tipo_juego, fecha_sorteo, fecha_pago, ocr, validado};
                 model.addRow(data);
-            } 
+            }
         }
 
     }
+
     /**
      * @param args the command line arguments
      */
@@ -227,10 +288,11 @@ public class informes extends javax.swing.JFrame {
             }
         });
     }
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnImprimirPDF;
     private com.toedter.calendar.JDateChooser date_picker;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
