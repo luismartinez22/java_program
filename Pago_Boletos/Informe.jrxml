@@ -28,8 +28,8 @@
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="179" y="22" width="188" height="35" uuid="bba899aa-e3bc-42ce-a22a-fecefd0a3052"/>
-				<textElement>
+				<reportElement x="0" y="22" width="555" height="35" uuid="bba899aa-e3bc-42ce-a22a-fecefd0a3052"/>
+				<textElement textAlignment="Center">
 					<font size="26"/>
 				</textElement>
 				<text><![CDATA[Informe boletos]]></text>
