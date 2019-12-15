@@ -217,43 +217,44 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
             File[] f = fd.getFiles();
             if(f.length > 0){
                 path = fd.getFiles()[0].getAbsolutePath();
-            }
-            Workbook workbook = WorkbookFactory.create(new File(path));
+                Workbook workbook = WorkbookFactory.create(new File(path));
 
-            // Getting the Sheet at index zero
-            Sheet sheet = workbook.getSheetAt(0);
+                // Getting the Sheet at index zero
+                Sheet sheet = workbook.getSheetAt(0);
 
-            // Create a DataFormatter to format and get each cell's value as String
-            DataFormatter dataFormatter = new DataFormatter();
-            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            int x = sheet.getLastRowNum();
-            for(int e = 1; e <= x; e++){
-                int ocr = 0;
-                String fecha_sorteo = "";
-                String fecha_pago = "";
-                String tipo_juego = "";
-                Vector row = new Vector();
-                for(int i = 0; i < 5; i++){
-                    String cellValue = dataFormatter.formatCellValue(sheet.getRow(e).getCell(i));
-                    sheet.getColumnBreaks();
-                    if(i == 0){
-                        tipo_juego = cellValue;
-                        row.add(cellValue);
-                    }else if(i  == 1){
-                        fecha_sorteo = cellValue;
-                        row.add(cellValue);
-                    }else if(i == 3){
-                        fecha_pago = cellValue;
-                        row.add(cellValue);
-                    }else if(i == 4 && cellValue.length() == 9){
-                        ocr = Integer.parseInt(cellValue);
-                        row.add(cellValue);
+                // Create a DataFormatter to format and get each cell's value as String
+                DataFormatter dataFormatter = new DataFormatter();
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                int x = sheet.getLastRowNum();
+                for(int e = 1; e <= x; e++){
+                    int ocr = 0;
+                    String fecha_sorteo = "";
+                    String fecha_pago = "";
+                    String tipo_juego = "";
+                    Vector row = new Vector();
+                    for(int i = 0; i < 5; i++){
+                        String cellValue = dataFormatter.formatCellValue(sheet.getRow(e).getCell(i));
+                        sheet.getColumnBreaks();
+                        if(i == 0){
+                            tipo_juego = cellValue;
+                            row.add(cellValue);
+                        }else if(i  == 1){
+                            fecha_sorteo = cellValue;
+                            row.add(cellValue);
+                        }else if(i == 3){
+                            fecha_pago = cellValue;
+                            row.add(cellValue);
+                        }else if(i == 4 && cellValue.length() == 9){
+                            ocr = Integer.parseInt(cellValue);
+                            row.add(cellValue);
+                        }
                     }
+                    this.Agregar(ocr, tipo_juego, fecha_sorteo, fecha_pago);
+                    model.addRow(row);
                 }
-                this.Agregar(ocr, tipo_juego, fecha_sorteo, fecha_pago);
-                model.addRow(row);
+                workbook.close();
             }
-            workbook.close();
+
 
         } catch (IOException ex) {
             Logger.getLogger(Lista_boletos.class.getName()).log(Level.SEVERE, null, ex);
