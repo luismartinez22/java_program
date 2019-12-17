@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author W.O.R.A.
+ * @author DevGL
  *
  */
 public class Configuracion {

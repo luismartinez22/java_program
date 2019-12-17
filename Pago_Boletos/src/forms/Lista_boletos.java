@@ -6,12 +6,17 @@
 package forms;
 
 import Dominio.Facade;
+import static forms.informes.convertirDateString;
 import java.awt.Color;
 import java.awt.FileDialog;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Vector;
@@ -31,6 +36,7 @@ import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import pago_boletos.boleto;
 import pago_boletos.cvs_Import;
 import pago_boletos.gest_boleto;
 
@@ -40,8 +46,10 @@ import pago_boletos.gest_boleto;
  */
 public class Lista_boletos extends javax.swing.JFrame implements Observer {
     Facade objF;
-
+    int cantValidados = 0;
     cvs_Import import_cvs = new cvs_Import();
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    LocalDateTime now = LocalDateTime.now();
     /**
      * Creates new form Login
      */
@@ -50,6 +58,7 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
         objF = Facade.getInstance();
         gest_boleto.getInstance().addObserver(this);
         setLocationRelativeTo(null);
+        date_picker.setDate(new Date());
     }
     
 
@@ -69,6 +78,11 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
         txt_code = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        labelValidados = new javax.swing.JLabel();
+        labelTotal = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        date_picker = new com.toedter.calendar.JDateChooser();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 23, 1000, 700));
@@ -152,6 +166,19 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
 
         jLabel1.setText("Ingrese OCR:");
 
+        labelValidados.setText("0");
+
+        labelTotal.setText("0");
+
+        jLabel4.setText("/");
+
+        jButton3.setText("Buscar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -170,11 +197,36 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txt_code, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(date_picker, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(labelValidados)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel4)
+                .addGap(18, 18, 18)
+                .addComponent(labelTotal)
+                .addGap(61, 61, 61))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(labelValidados)
+                            .addComponent(labelTotal)
+                            .addComponent(jLabel4)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(date_picker, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 588, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -215,6 +267,7 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
             FileDialog fd = new FileDialog(new JFrame());
             fd.setVisible(true);
             File[] f = fd.getFiles();
+            int cantOcr = 0;
             if(f.length > 0){
                 path = fd.getFiles()[0].getAbsolutePath();
                 Workbook workbook = WorkbookFactory.create(new File(path));
@@ -246,15 +299,16 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
                             row.add(cellValue);
                         }else if(i == 4 && cellValue.length() == 9){
                             ocr = Integer.parseInt(cellValue);
+                            cantOcr ++;
                             row.add(cellValue);
                         }
                     }
                     this.Agregar(ocr, tipo_juego, fecha_sorteo, fecha_pago);
                     model.addRow(row);
                 }
+                labelTotal.setText(Integer.toString(cantOcr));
                 workbook.close();
             }
-
 
         } catch (IOException ex) {
             Logger.getLogger(Lista_boletos.class.getName()).log(Level.SEVERE, null, ex);
@@ -299,11 +353,48 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_codeCaretPositionChanged
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        String fecha = convertirDateString(date_picker.getDate());
+        if (!fecha.equals("")) {
+            try {
+                this.Listar(fecha);
+            } catch (IOException ex) {
+                Logger.getLogger(informes.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     protected void Agregar(int ocr, String tipo_juego, String fecha_sorteo, String fecha_pago) throws IOException {
         boolean validado = false;
         if (!(objF.alta_boleto(ocr, fecha_sorteo, fecha_pago, tipo_juego, validado))) {
             throw new IOException("Hubo un error, por favor vuelve a importar el archivo");
         }
+    }
+    
+        protected void Listar(String fecha) throws IOException {
+        //lo modifica
+        ArrayList<boleto> bol = objF.obtener_boletos_por_fecha(fecha);
+        if (bol.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "No se encontraron registros para la fecha seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            for (int i = 0; i < bol.size(); i++) {
+                int ocr = bol.get(i).getOcr();
+                String fecha_pago = bol.get(i).getFecha_pago();
+                String fecha_sorteo = bol.get(i).getFecha_sorteo();
+                String tipo_juego = bol.get(i).getTipo_juego();
+                boolean validado = bol.get(i).getValidado();
+                if(validado == Boolean.TRUE){
+                    cantValidados ++;
+                }
+                Object[] data = {tipo_juego, fecha_sorteo, fecha_pago, ocr, validado};
+                model.addRow(data);
+            }
+            labelTotal.setText(Integer.toString(model.getRowCount()));
+            labelValidados.setText(Integer.toString(cantValidados));
+        }
+
     }
         
     protected void Modificar(int ocr) throws IOException {
@@ -318,15 +409,18 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
         int x = model.getRowCount();
         for(int e = 0; e < x; e++){
             Object columnValue = model.getValueAt(e,3);
-            if(columnValue != null && columnValue.equals(String.valueOf(ocr))){
-                if(model.getValueAt(e, 4) != null){
+            String colVal = String.valueOf(columnValue);
+            if(columnValue != null && colVal.equals(String.valueOf(ocr))){
+                if(model.getValueAt(e, 4) == Boolean.TRUE){
                     JOptionPane.showMessageDialog(null, "OCR numero " + ocr + " ya fue validado!", "Error", JOptionPane.ERROR_MESSAGE); 
                     txt_code.setText("");
                     return false;
                 }else{
+                    cantValidados ++;
                     model.setValueAt(true, e, 4);
                     txt_code.setText("");
                     model.fireTableDataChanged();
+                    labelValidados.setText(Integer.toString(cantValidados));
                     return true;
                 }
             }
@@ -388,11 +482,16 @@ public class Lista_boletos extends javax.swing.JFrame implements Observer {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser date_picker;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel labelTotal;
+    private javax.swing.JLabel labelValidados;
     private javax.swing.JTextField txt_code;
     // End of variables declaration//GEN-END:variables
 
